@@ -1,0 +1,45 @@
+use std::collections::HashSet;
+
+/// Given the `sum`, return all possible Pythagorean triplets, which produce the said sum, or an
+/// empty HashSet if there are no such triplets. Note that you are expected to return triplets in
+/// [a, b, c] order, where a < b < c.
+pub fn find(sum: u32) -> HashSet<[u32; 3]> {
+    let sum = sum as i32;
+    let mut hmap: HashSet<[u32; 3]> = HashSet::new();
+    let mut triplet: [u32; 3];
+
+    dbg!(sum);
+    for m in 1..(sum / 2) {
+        dbg!(m);
+        // // m and n must be natural numbers
+        // if (sum/2) % m != 0 {
+        //     continue;
+        // }
+
+        let n: i32 = (sum as i32 / 2) / m - m;
+
+        // Discard any negative n's
+        if n < 1 {
+            continue;
+        }
+
+        // Discard any n's >= m
+        if m <= n {
+            continue;
+        }
+
+        let a = m.pow(2) - n.pow(2);
+        let b = 2 * m * n;
+        let c = m.pow(2) + n.pow(2);
+
+        dbg!([a, b, c]);
+        if a + b + c == sum {
+            triplet = [a as u32, b as u32, c as u32];
+            triplet.sort();
+            hmap.insert(triplet);
+        }
+    }
+
+    dbg!(&hmap);
+    hmap
+}
